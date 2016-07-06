@@ -9,7 +9,7 @@ var locations = [
 		latlng: {
 					lat: 28.628472,
 					lng: 76.578614
-				}	
+				}
 	},
 	
 	{
@@ -18,7 +18,6 @@ var locations = [
 					lat: 28.608472,
 					lng: 77.078614
 				}
-		
 	},
 	
 	{
@@ -27,14 +26,12 @@ var locations = [
 					lat: 28.658472,
 					lng: 76.878614
 				}
-					
 	}
 ];
 
 var Location = function(data) {
-	this.name = ko.observable(data.name);
-	this.latlng = ko.observable(data.latng);
-	
+	this.name = data.name;
+	this.latlng = data.latlng;
 };
 
 
@@ -46,31 +43,41 @@ var viewModel = function() {
 	self = this;
 	
 	self.sortLocations = ko.observableArray(locations.slice());
+	
 	this.markers = ko.observableArray([]);
+	
 	this.locationList = ko.observableArray([]);
+	
 	locations.forEach(function(location) {
 		self.locationList.push(new Location(location));
 	});
 	
+	console.log(self.locationList()[0]);
+	
 	var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+	
 	var largeInfoWindow = new google.maps.InfoWindow();
+	
 	for (var i=0; i < self.locationList().length; i++) {
 		
 		marker = new google.maps.Marker({
-			position: self.sortLocations()[i].latlng,
+			position: self.locationList()[i].latlng,
 			animation: google.maps.Animation.DROP,
-			title: self.sortLocations()[i].name,
+			title: self.locationList()[i].name,
 			draggable: true,
 			icon: image,
 			id: i
 		});
-		this.markers().push(marker);
+		self.markers().push(marker);
+		
+		self.locationList()[i].marker = marker;
 		
 		marker.addListener('click', function() {
             populateInfoWindow(this, largeInfoWindow);
           });
+		  
     };
-	
+	console.log(self.markers()[0]);
 	var populateInfoWindow = function (marker, infowindow) {
         
         if (infowindow.marker != marker) {
@@ -84,25 +91,20 @@ var viewModel = function() {
         }
       };
 	  
-		this.addMarker = function(loc) {
-		var marker = new google.maps.Marker({
-		position: loc,
-        map: map
-        });
-	};
 
-	this.setMarker = function(clicked) {
-		for (var i=0; i < self.markers().length; i++ ) {
-		self.markers()[i].setMap(null);
-		}; 
-		self.addMarker(self.sortLocations()[0].latlng);
+	this.currentMarker = ko.observable(this.locationList()[0].marker.setMap(map));
+	
+	this.setMarker = function(clickedMarker) {
+		
+		self.currentMarker(clickedMarker);
+		
 	};
 
 	this.setMapOnAll = function() {
-		
 		for (var i=0; i < self.markers().length; i++ ) {
 		self.markers()[i].setMap(map);
 		}; 
+		
 	} 
 	
 	
