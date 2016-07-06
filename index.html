@@ -1,0 +1,55 @@
+
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+	
+	
+
+	
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        
+      }
+      #map {
+        width: 83%;
+		height: 100%;
+      }
+	  #menu {
+	   width: 17%;
+	    height: 100%;
+		
+		float: left;
+	}
+	  
+    </style>
+  </head>
+  <body>
+  
+   <div id ="menu" > 
+   <h1 id="header">List of places</h1>
+
+
+   <input id="filter" type="text" placeholder="What needs to be done?" >
+   <button data-bind = "click: setMapOnAll" > Filter </button>
+	<div data-bind= "foreach: locationList" class = "list"> 
+		<ul class = "name" data-bind = "text:name, click: $parent.setMarker"> </ul>
+	</div>
+   </div>
+   
+    <div id="map"></div>
+ 
+	<script src="js/lib/knockout-3.2.0.js"></script>
+	<script src = "main.js"> </script>
+	
+	
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDaggBT_ca24SRBV3xs6oFzTbOWnrFJAjY&v=3&callback=initMap"></script>
+	 
+	
+  </body>
+</html>
+
+
