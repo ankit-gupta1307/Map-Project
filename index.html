@@ -1,4 +1,4 @@
-
+<!DOCTYPE html> 
 <html>
   <head>
     <title>Simple Map</title>
@@ -33,10 +33,10 @@
    <h1 id="header">List of places</h1>
 
 
-   <input id="filter" type="text" placeholder="What needs to be done?" >
+   <input data-bind = "value: query, valueUpdate: 'keyup'" id="filter" type="text" placeholder="What needs to be done?" >
    <button> Filter </button>
-	<div data-bind= "foreach: locationList" class = "list"> 
-		<li class = "name" data-bind = "text:name, click: $parent.setMarker"> 
+	<div data-bind= "foreach: filteredPlaces" class = "list"> 
+		<li class = "name" data-bind = "text:name, click: $parent.setMarker"> </li>
 	</div>
    </div>
    

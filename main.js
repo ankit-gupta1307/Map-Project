@@ -33,6 +33,7 @@ var Location = function(data) {
 	this.name = data.name;
 	this.latlng = data.latlng;
 	
+	
 };
 
 
@@ -67,6 +68,7 @@ var viewModel = function() {
 			animation: google.maps.Animation.DROP,
 			title: self.locationList()[i].name,
 			draggable: true,
+			visible: true,
 			icon: image,
 			id: i
 		});
@@ -93,8 +95,27 @@ var viewModel = function() {
       };
 	  
 
+	self.query = ko.observable('');
+	self.show = ko.observable(true);
+
 	
-	
+	self.filteredPlaces = ko.computed(function () {
+    return ko.utils.arrayFilter(self.locationList(), function (rec) {
+		
+            if ( self.query().length === 0 || rec.name.toLowerCase().indexOf(self.query().toLowerCase()) > -1) {
+			rec.marker.setVisible(true);
+			
+			return true; } else {
+				
+				rec.marker.setVisible(false);
+			
+				return false;
+}
+			});
+			
+		});
+			
+
 	
 	
 	this.setMarker = function(data) {
@@ -102,7 +123,7 @@ var viewModel = function() {
 		 self.locationList().forEach(function (location){
          location.marker.setVisible(false);
         });
-
+	
   //set the marker for the clicked location visible
         data.marker.setVisible(true);
 	};
