@@ -3,7 +3,7 @@
 	
 
 
-var locations = [
+ var locations = [
 	{
 		name: 'Tilak nagar',
 		latlng: {
@@ -32,6 +32,7 @@ var locations = [
 var Location = function(data) {
 	this.name = data.name;
 	this.latlng = data.latlng;
+	
 };
 
 
@@ -61,6 +62,7 @@ var viewModel = function() {
 	for (var i=0; i < self.locationList().length; i++) {
 		
 		marker = new google.maps.Marker({
+			map: map,
 			position: self.locationList()[i].latlng,
 			animation: google.maps.Animation.DROP,
 			title: self.locationList()[i].name,
@@ -70,11 +72,10 @@ var viewModel = function() {
 		});
 		self.markers().push(marker);
 		
-		self.locationList()[i].marker = marker;
-		
 		marker.addListener('click', function() {
             populateInfoWindow(this, largeInfoWindow);
           });
+		self.locationList()[i].marker = marker; 
 		  
     };
 	console.log(self.markers()[0]);
@@ -92,23 +93,20 @@ var viewModel = function() {
       };
 	  
 
-	this.currentMarker = ko.observable(this.locationList()[0].marker.setMap(map));
 	
-	this.setMarker = function(clickedMarker) {
-		
-		self.currentMarker(clickedMarker);
-		
-	};
+	
+	
+	
+	this.setMarker = function(data) {
+		console.log(data);
+		 self.locationList().forEach(function (location){
+         location.marker.setVisible(false);
+        });
 
-	this.setMapOnAll = function() {
-		for (var i=0; i < self.markers().length; i++ ) {
-		self.markers()[i].setMap(map);
-		}; 
-		
-	} 
+  //set the marker for the clicked location visible
+        data.marker.setVisible(true);
+	};
 	
-	
-		
 };
 var styles = [
     {

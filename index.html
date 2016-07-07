@@ -34,9 +34,9 @@
 
 
    <input id="filter" type="text" placeholder="What needs to be done?" >
-   <button data-bind = "click: setMapOnAll" > Filter </button>
+   <button> Filter </button>
 	<div data-bind= "foreach: locationList" class = "list"> 
-		<li class = "name" data-bind = "text:name, click: $parent.setMarker"> </li>
+		<li class = "name" data-bind = "text:name, click: $parent.setMarker"> 
 	</div>
    </div>
    
