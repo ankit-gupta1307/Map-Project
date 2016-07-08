@@ -32,11 +32,16 @@
 	}
 ];
 
+var locate = ko.observable({name: ko.observableArray([])});
+
+
 var Location = function(data) {
-	this.name = data.name;
+	
 	this.latlng = data.latlng;
-	
-	
+	this.name = ko.computed(function() {
+	console.log(locate().name());
+	return locate().name();
+});
 };
 
 
@@ -46,7 +51,8 @@ var map, marker;
 var viewModel = function() {
 	
 	self = this;
-	this.names =  ko.observableArray([]);
+	
+	this.names = ko.observableArray([]);
 	self.sortLocations = ko.observableArray(locations.slice());
 	
 	this.markers = ko.observableArray([]);
@@ -57,7 +63,7 @@ var viewModel = function() {
 		self.locationList.push(new Location(location));
 	});
 	
-	console.log(self.locationList()[0]);
+
 	
 	var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 	
@@ -84,6 +90,7 @@ var viewModel = function() {
 		  
     };
 	console.log(self.markers()[0]);
+	
 	var populateInfoWindow = function (marker, infowindow) {
         
         if (infowindow.marker != marker) {
@@ -132,13 +139,14 @@ var viewModel = function() {
 		cache: false,
 		url: basicInfoUrl,
 		success: function(data) {
-					self.names().push(data.response.venues[0].name);	
+			for(var i=0; i < data.response.venues.length; i++) {
+					locate().name.push(data.response.venues[i].name);	
+					
+					}
 				}
 		});
 		
-		self.koComputedExercise = ko.computed(function() {
-			console.log(self.names()[0]);
-		});
+		
 	
 };
 var styles = [
