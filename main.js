@@ -4,23 +4,7 @@
 	var lngit = 77.0938320;
 	var latitlngit = latit +','+ lngit;
 		
-	self.names =  ko.observableArray([]);
-	var basicInfoUrl = "https://api.foursquare.com/v2/venues/search?client_id=P3B45WXNAGYNYO4ZFIFQUANHVAZ4RPZZ4Z0DG4S3TRJWCQGF&client_secret=R1RZ4KZQJYJJYX2F4NHWLXLXY10WIUXNKDFZU5SCNH0PBYBQ&v=20130815&ll=28.639069,77.086774&query=eye glasse&radius=1000" ;
-	$.ajax({
-		type: 'GET',
-		dataType: "jsonp",
-		cache: false,
-		url: basicInfoUrl,
-		success: function(data) {
-					
-					self.names().push(data.response.venues[0].name);
-					
-				}
-		});
-		
-		this.koComputedExercise = ko.computed(function() {
-			console.log(self.names()[0]);
-		});
+	
 		
  var locations = [
 	{
@@ -62,11 +46,10 @@ var map, marker;
 var viewModel = function() {
 	
 	self = this;
-	
+	this.names =  ko.observableArray([]);
 	self.sortLocations = ko.observableArray(locations.slice());
 	
 	this.markers = ko.observableArray([]);
-	
 	
 	this.locationList = ko.observableArray([]);
 	
@@ -140,6 +123,22 @@ var viewModel = function() {
   //set the marker for the clicked location visible
         data.marker.setVisible(true);
 	};
+	
+	
+	var basicInfoUrl = "https://api.foursquare.com/v2/venues/search?client_id=P3B45WXNAGYNYO4ZFIFQUANHVAZ4RPZZ4Z0DG4S3TRJWCQGF&client_secret=R1RZ4KZQJYJJYX2F4NHWLXLXY10WIUXNKDFZU5SCNH0PBYBQ&v=20130815&ll=28.639069,77.086774&query=gym&radius=1000" ;
+	$.ajax({
+		type: 'GET',
+		dataType: "jsonp",
+		cache: false,
+		url: basicInfoUrl,
+		success: function(data) {
+					self.names().push(data.response.venues[0].name);	
+				}
+		});
+		
+		self.koComputedExercise = ko.computed(function() {
+			console.log(self.names()[0]);
+		});
 	
 };
 var styles = [
