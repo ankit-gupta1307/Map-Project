@@ -1,8 +1,27 @@
 
    
-	
-
-
+	var latit = 28.6368300;
+	var lngit = 77.0938320;
+	var latitlngit = latit +','+ lngit;
+		
+	self.names =  ko.observableArray([]);
+	var basicInfoUrl = "https://api.foursquare.com/v2/venues/search?client_id=P3B45WXNAGYNYO4ZFIFQUANHVAZ4RPZZ4Z0DG4S3TRJWCQGF&client_secret=R1RZ4KZQJYJJYX2F4NHWLXLXY10WIUXNKDFZU5SCNH0PBYBQ&v=20130815&ll=28.639069,77.086774&query=eye glasse&radius=1000" ;
+	$.ajax({
+		type: 'GET',
+		dataType: "jsonp",
+		cache: false,
+		url: basicInfoUrl,
+		success: function(data) {
+					
+					self.names().push(data.response.venues[0].name);
+					
+				}
+		});
+		
+		this.koComputedExercise = ko.computed(function() {
+			console.log(self.names()[0]);
+		});
+		
  var locations = [
 	{
 		name: 'Tilak nagar',
@@ -47,6 +66,7 @@ var viewModel = function() {
 	self.sortLocations = ko.observableArray(locations.slice());
 	
 	this.markers = ko.observableArray([]);
+	
 	
 	this.locationList = ko.observableArray([]);
 	
@@ -94,26 +114,19 @@ var viewModel = function() {
         }
       };
 	  
-
 	self.query = ko.observable('');
-	self.show = ko.observable(true);
 
-	
 	self.filteredPlaces = ko.computed(function () {
     return ko.utils.arrayFilter(self.locationList(), function (rec) {
-		
             if ( self.query().length === 0 || rec.name.toLowerCase().indexOf(self.query().toLowerCase()) > -1) {
-			rec.marker.setVisible(true);
-			
-			return true; } else {
-				
-				rec.marker.setVisible(false);
-			
-				return false;
-}
+					rec.marker.setVisible(true);
+					return true; 
+					} else {
+					rec.marker.setVisible(false);
+					return false;
+					}
+				});
 			});
-			
-		});
 			
 
 	
