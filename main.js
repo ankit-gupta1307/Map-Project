@@ -32,7 +32,7 @@
 	}
 ];
 
-var locate = ko.observable({name: ko.observableArray([])});
+var.locate = ko.observable({name: ko.observableArray([])});
 
 
 var Location = function(data) {
@@ -53,13 +53,12 @@ var viewModel = function() {
 	self = this;
 	
 	this.names = ko.observableArray([]);
-	self.sortLocations = ko.observableArray(locations.slice());
 	
 	this.markers = ko.observableArray([]);
 	
 	this.locationList = ko.observableArray([]);
 	
-	locations.forEach(function(location) {
+	locate().forEach(function(location) {
 		self.locationList.push(new Location(location));
 	});
 	
