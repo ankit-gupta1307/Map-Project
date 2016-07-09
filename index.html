@@ -9,7 +9,7 @@
 	
 
 	
-    <style>
+   <style>
       html, body {
         height: 100%;
         margin: 0;
@@ -30,6 +30,23 @@
   </head>
   <body>
   
+   <h2>Your seat reservations</h2>
+<!--
+	<table>
+		<thead><tr>
+			<th>Passenger name</th><th>Meal</th><th>Surcharge</th><th></th>
+		</tr></thead>
+		<!-- Todo: Generate table body -->
+		<!--
+		<tbody data-bind="foreach: seats">
+			<tr>
+				<td data-bind="text: name"></td>
+				<td data-bind="text: meal().mealName"></td>
+				<td data-bind="text: meal().price"></td>
+			</tr> 
+		</tbody>
+	</table> -->
+   
    <div id ="menu" > 
    <h1 id="header">List of places</h1>
 
@@ -41,13 +58,13 @@
 	</div>
    </div>
    
-    <div id="map"></div>
+    <div id="map"></div> X
  
 	<script src="js/lib/knockout-3.2.0.js"></script>
 	<script src = "main.js"> </script>
 	
 	
-    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDaggBT_ca24SRBV3xs6oFzTbOWnrFJAjY&v=3&callback=initMap"></script>
+ <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDaggBT_ca24SRBV3xs6oFzTbOWnrFJAjY&v=3&callback=initMap"></script>  
 
   </body>
 </html>

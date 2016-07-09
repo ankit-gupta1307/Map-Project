@@ -1,6 +1,6 @@
 
    
-	var latit = 28.6368300;
+var latit = 28.6368300;
 	var lngit = 77.0938320;
 	var latitlngit = latit +','+ lngit;
 		
@@ -8,40 +8,142 @@
 		
  var locations = [
 	{
-		name: 'Tilak nagar',
+		name: 'Addiction Gym & Spa',
 		latlng: {
-					lat: 28.628472,
-					lng: 76.578614
+					lat: 28.639187518722093,
+					lng: 77.0750160873286
 				}
 	},
 	
 	{
-		name: 'Janakpuri',
+		name: 'Strength Gym',
 		latlng: {
-					lat: 28.608472,
-					lng: 77.078614
+					lat: 28.63951183622196,
+					lng: 77.08926957394918
 				}
 	},
-	
 	{
-		name: 'Rajouri Garden',
+		name: 'The gym vikaspuri',
 		latlng: {
-					lat: 28.658472,
-					lng: 76.878614
+					lat: 28.64290937981111,
+					lng: 77.08158661505388
+				}
+	},
+	{
+		name: 'the world gym vikas puri',
+		latlng: {
+					lat: 28.64402685702688,
+					lng: 77.0864032751163
+				}
+	},
+	{
+		name: 'Radius Gym And Spa',
+		latlng: {
+					lat: 28.641996352813372,
+					lng: 77.09651931856945
+				}
+	},
+	{
+		name: 'the world gym',
+		latlng: {
+					lat: 28.64487862367399,
+					lng: 77.07923160832262
+				}
+	},
+	{
+		name: 'Brix Gym',
+		latlng: {
+					lat: 28.627407338627094,
+					lng: 77.08603262901306
+				}
+	},
+	{
+		name: 'The Gym',
+		latlng: {
+					lat: 28.62630747520567,
+					lng: 77.09218638430356
+				}
+	},
+	{
+		name: 'Multy Gym',
+		latlng: {
+					lat: 28.634479626908053,
+					lng: 77.07248670383318
+				}
+	},
+	{
+		name: 'carbon gym',
+		latlng: {
+					lat: 28.62688669873087,
+					lng: 77.09476593210454
+				}
+	},
+	{
+		name: 'Musclemania Gym',
+		latlng: {
+					lat: 28.632213228257452,
+					lng: 77.10194229080281
+				}
+	},
+	{
+		name: 'Brix gym',
+		latlng: {
+					lat: 28.634499063442853,
+					lng: 77.1051004269293
+				}
+	},
+	{
+		name: 'Gym X',
+		latlng: {
+					lat: 28.616414801933328,
+					lng: 77.08061988756133
+				}
+	},
+	{
+		name: 'Adonis fitness and Gym',
+		latlng: {
+					lat: 28.62156138091793,
+					lng: 77.0877802311305
+				}
+	},
+	{
+		name: "'Gold's Gym A Block Janakpuri'",
+		latlng: {
+					lat: 28.622431823919275,
+					lng: 77.06936705764893
+				}
+	},
+	{
+		name: 'Gold Gym',
+		latlng: {
+					lat: 28.621837221762117,
+					lng: 77.0695750365762
+				}
+	},
+	{
+		name: 'gymplex',
+		latlng: {
+					lat: 28.63941226079242,
+					lng: 77.08104142666788
+				}
+	},
+	{
+		name: 'TheGym',
+		latlng: {
+					lat: 28.626682205745386,
+					lng: 77.09179401397705
 				}
 	}
+	
 ];
 
-var.locate = ko.observable({name: ko.observableArray([])});
 
 
-var Location = function(data) {
-	
-	this.latlng = data.latlng;
-	this.name = ko.computed(function() {
-	console.log(locate().name());
-	return locate().name();
-});
+var Location = function(data, item) {
+	var self = this;
+	self.name = data.name;
+	self.latlng = data.latlng;
+	self.abc = ko.observable(item);
 };
 
 
@@ -54,13 +156,18 @@ var viewModel = function() {
 	
 	this.names = ko.observableArray([]);
 	
+	self.availableIds = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+	console.log(self.availableIds);
 	this.markers = ko.observableArray([]);
 	
 	this.locationList = ko.observableArray([]);
 	
-	locate().forEach(function(location) {
-		self.locationList.push(new Location(location));
+	locations.forEach(function(location) {
+		self.locationList.push(new Location(location, self.availableIds));
 	});
+	
+	console.log(this.locationList()[0].abc()[0].id);
+	console.log(this.locationList()[0].name);
 	
 
 	
@@ -88,7 +195,7 @@ var viewModel = function() {
 		self.locationList()[i].marker = marker; 
 		  
     };
-	console.log(self.markers()[0]);
+	
 	
 	var populateInfoWindow = function (marker, infowindow) {
         
@@ -131,17 +238,18 @@ var viewModel = function() {
 	};
 	
 	
-	var basicInfoUrl = "https://api.foursquare.com/v2/venues/search?client_id=P3B45WXNAGYNYO4ZFIFQUANHVAZ4RPZZ4Z0DG4S3TRJWCQGF&client_secret=R1RZ4KZQJYJJYX2F4NHWLXLXY10WIUXNKDFZU5SCNH0PBYBQ&v=20130815&ll=28.639069,77.086774&query=gym&radius=1000" ;
+	var basicInfoUrl = "https://api.foursquare.com/v2/venues/search?client_id=P3B45WXNAGYNYO4ZFIFQUANHVAZ4RPZZ4Z0DG4S3TRJWCQGF&client_secret=R1RZ4KZQJYJJYX2F4NHWLXLXY10WIUXNKDFZU5SCNH0PBYBQ&v=20130815&ll=28.639069,77.086774&query=gym&radius=2000" ;
 	$.ajax({
 		type: 'GET',
 		dataType: "jsonp",
 		cache: false,
 		url: basicInfoUrl,
 		success: function(data) {
+			
 			for(var i=0; i < data.response.venues.length; i++) {
-					locate().name.push(data.response.venues[i].name);	
-					
-					}
+						self.availableIds[i].id = (data.response.venues[i].id);	
+					};
+				
 				}
 		});
 		
@@ -175,26 +283,52 @@ var styles = [
 
  function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 4,
-    center: {lat: 28.628472 , lng: 77.078614 },
+    zoom: 14,
+    center: {lat: 28.634479626908053 , lng: 77.07248670383318 },
 	styles: styles
 	
   });
   
-  var bounds = {
-    north: 28,
+  /* var bounds = {
+    north: 28.5,
     south: 29,
-    east: 77.2,
-    west: 76.5
+    east: 76.9,
+    west: 77.2
   };
   
-   map.fitBounds(bounds);
+   map.fitBounds(bounds);  */
    ko.applyBindings(new viewModel());
 }
     
  
- 
+/*
 
-  
+// Class to represent a row in the seat reservations grid
+function SeatReservation(name, initialMeal) {
+    var self = this;
+    self.name = name;
+    self.meal = ko.observable(initialMeal);
+}
 
+// Overall viewmodel for this screen, along with initial state
+function ReservationsViewModel() {
+    var self = this;
 
+    // Non-editable catalog data - would come from the server
+    self.availableMeals = [
+        { mealName: "Standard (sandwich)", price: 0 },
+        { mealName: "Premium (lobster)", price: 34.95 },
+        { mealName: "Ultimate (whole zebra)", price: 290 }
+    ];    
+
+    // Editable data
+    self.seats = ko.observableArray([
+        new SeatReservation("Steve", self.availableMeals[1]),
+        new SeatReservation("Bert", self.availableMeals[1])
+    ]);
+	console.log(self.seats()[0].meal().mealName);
+}
+
+ko.applyBindings(new ReservationsViewModel());
+
+*/
