@@ -136,14 +136,14 @@ var latit = 28.6368300;
 	}
 	
 ];
+console.log(locations);
+console.log(locations[1].id);
 
-
-
-var Location = function(data, item) {
+var Location = function(data) {
 	var self = this;
 	self.name = data.name;
 	self.latlng = data.latlng;
-	self.abc = ko.observable(item);
+	self.id = data.id;
 };
 
 
@@ -157,17 +157,16 @@ var viewModel = function() {
 	this.names = ko.observableArray([]);
 	
 	self.availableIds = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-	console.log(self.availableIds);
+	
 	this.markers = ko.observableArray([]);
 	
 	this.locationList = ko.observableArray([]);
 	
-	locations.forEach(function(location) {
-		self.locationList.push(new Location(location, self.availableIds));
-	});
 	
-	console.log(this.locationList()[0].abc()[0].id);
-	console.log(this.locationList()[0].name);
+	locations.forEach(function(location) {
+		self.locationList.push(new Location(location));
+	});
+	console.log(this.locationList());
 	
 
 	
@@ -181,7 +180,7 @@ var viewModel = function() {
 			map: map,
 			position: self.locationList()[i].latlng,
 			animation: google.maps.Animation.DROP,
-			title: self.locationList()[i].name,
+			title: self.locationList()[i].id,
 			draggable: true,
 			visible: true,
 			icon: image,
@@ -247,9 +246,10 @@ var viewModel = function() {
 		success: function(data) {
 			
 			for(var i=0; i < data.response.venues.length; i++) {
-						self.availableIds[i].id = (data.response.venues[i].id);	
+						locations[i].id = data.response.venues[i].id;
+						
 					};
-				
+				console.log(locations[1]);
 				}
 		});
 		
