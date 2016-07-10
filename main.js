@@ -136,17 +136,15 @@ var latit = 28.6368300;
 	}
 	
 ];
-console.log(locations);
-console.log(locations[1].id);
+console.log(locations[1]);
+console.log(locations[0].id);
 
 var Location = function(data) {
 	var self = this;
 	self.name = data.name;
 	self.latlng = data.latlng;
-	self.id = data.id;
+	self.id = ko.observable(data.id);
 };
-
-
 
 var map, marker;
 
@@ -166,9 +164,13 @@ var viewModel = function() {
 	locations.forEach(function(location) {
 		self.locationList.push(new Location(location));
 	});
-	console.log(this.locationList());
 	
-
+	
+	
+	console.log(this.locationList()); 
+	console.log(this.locationList()[1]); 
+	console.log(this.locationList()[1].id());
+	
 	
 	var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 	
@@ -180,7 +182,7 @@ var viewModel = function() {
 			map: map,
 			position: self.locationList()[i].latlng,
 			animation: google.maps.Animation.DROP,
-			title: self.locationList()[i].id,
+			title: self.locationList()[i].id(),
 			draggable: true,
 			visible: true,
 			icon: image,
@@ -224,10 +226,9 @@ var viewModel = function() {
 			});
 			
 
-	
+
 	
 	this.setMarker = function(data) {
-		console.log(data);
 		 self.locationList().forEach(function (location){
          location.marker.setVisible(false);
         });
@@ -246,10 +247,10 @@ var viewModel = function() {
 		success: function(data) {
 			
 			for(var i=0; i < data.response.venues.length; i++) {
-						locations[i].id = data.response.venues[i].id;
-						
-					};
-				console.log(locations[1]);
+					
+					locations[i].id = data.response.venues[i].id ;
+					
+				};
 				}
 		});
 		
